@@ -44,16 +44,16 @@
 		<bonigarcias.webdrivermanager.version>3.8.1</bonigarcias.webdrivermanager.version>
 		<!-- HtmlUnit -->
 		<htmlunit.version>2.39.0</htmlunit.version>
-        <!-- Liberty configuration -->
-        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
-        <!-- Microshed Testing -->
-        <microshed-testing.version>0.7.1</microshed-testing.version>
-        <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
-        <!-- Sindi Libraries -->
-        <sindi-commons.version>0.0.1-SNAPSHOT</sindi-commons.version>
-        <!-- Fabric8 Docker Maven Plugin -->
-        <io.fabric8.version>4.4.1</io.fabric8.version>
+		<!-- Liberty configuration -->
+		<liberty.var.default.http.port>9080</liberty.var.default.http.port>
+		<liberty.var.default.https.port>9443</liberty.var.default.https.port>
+		<!-- Microshed Testing -->
+		<microshed-testing.version>0.7.1</microshed-testing.version>
+		<slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
+		<!-- Sindi Libraries -->
+		<sindi-commons.version>0.0.1-SNAPSHOT</sindi-commons.version>
+		<!-- Fabric8 Docker Maven Plugin -->
+		<io.fabric8.version>4.4.1</io.fabric8.version>
 	</properties>
 
 	<dependencyManagement>
@@ -289,11 +289,11 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-            <!-- Enable liberty-maven plugin -->
-            <plugin>
-                <groupId>io.openliberty.tools</groupId>
-                <artifactId>liberty-maven-plugin</artifactId>
-            </plugin>
+			<!-- Enable liberty-maven plugin -->
+			<plugin>
+			    <groupId>io.openliberty.tools</groupId>
+			    <artifactId>liberty-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 </project>
