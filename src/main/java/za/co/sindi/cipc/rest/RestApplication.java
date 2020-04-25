@@ -1,7 +1,7 @@
 /**
  * 
  */
-package za.co.sindi.demo.payara.rest;
+package za.co.sindi.cipc.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

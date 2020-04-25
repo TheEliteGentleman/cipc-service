@@ -1,0 +1,21 @@
+<server description="Sample Liberty server">
+    <featureManager>
+    	<!-- Java EE 8 Feature -->
+    	<!-- See details here: https://openliberty.io/docs/ref/feature/#javaee-8.0.html -->
+    	<feature>javaee-8.0</feature>
+    	<!-- Eclipse Microprofile 3.2 -->
+    	<!-- See details here: https://openliberty.io/docs/ref/feature/#microProfile-3.2.html -->
+    	<feature>microProfile-3.2</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="9080"/>
+    <variable name="default.https.port" defaultValue="9443"/>
+
+    <webApplication location="cipc-service.war" contextRoot="/" />
+    <mpMetrics authentication="false"/>
+
+    <logging traceSpecification="com.ibm.ws.microprofile.health.*=all" />
+
+    <httpEndpoint host="*" httpPort="${default.http.port}"
+        httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+</server>

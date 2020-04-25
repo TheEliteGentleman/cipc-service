@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>za.co.sindi</groupId>
-	<artifactId>payara-micro-example</artifactId>
+	<artifactId>cipc-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Payara MicroService</name>
-	<description>Tutorial on using Payara MicroService</description>
+	<name>CIPC Service</name>
+	<description>A RESTful Service that verify and validates whether the enterprise number is valid.</description>
 
 	<developers>
 		<developer>
@@ -20,82 +20,240 @@
 	</developers>
 
 	<properties>
+		<maven.compiler.source>13</maven.compiler.source>
+		<maven.compiler.target>13</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.version>3.3.3</maven.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.version>3.6.3</maven.version>
+		<jakarta.jakartaee-api.version>8.0.0</jakarta.jakartaee-api.version>
+		<microprofile.version>3.2</microprofile.version>
+		<junit-jupiter.version>5.6.0</junit-jupiter.version>
+		<javax.jaxb-api.version>2.3.1</javax.jaxb-api.version>
+        <!-- Plugin versions -->
+        <version.liberty-maven-plugin>3.2</version.liberty-maven-plugin>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
+        <version.maven-enforcer-plugin>3.0.0-M3</version.maven-enforcer-plugin>
+        <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>3.0.0-M4</version.maven-failsafe-plugin>
+		<!-- MySQL connector Java -->
+		<version.mysql-connector-java>8.0.19</version.mysql-connector-java>
+		<!-- Selenium Driver -->
+		<org.seleniumhq.selenium.version>4.0.0-alpha-5</org.seleniumhq.selenium.version>
+		<!-- Selenium WebDriver version -->
+		<bonigarcias.webdrivermanager.version>3.8.1</bonigarcias.webdrivermanager.version>
+		<!-- HtmlUnit -->
+		<htmlunit.version>2.39.0</htmlunit.version>
+        <!-- Liberty configuration -->
+        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
+        <!-- Microshed Testing -->
+        <microshed-testing.version>0.7.1</microshed-testing.version>
+        <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
+        <!-- Sindi Libraries -->
+        <sindi-commons.version>0.0.1-SNAPSHOT</sindi-commons.version>
+        <!-- Fabric8 Docker Maven Plugin -->
+        <io.fabric8.version>4.4.1</io.fabric8.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+			<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+			<dependency>
+			    <groupId>javax.xml.bind</groupId>
+			    <artifactId>jaxb-api</artifactId>
+			    <version>${javax.jaxb-api.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.platform</groupId>
+				<artifactId>jakarta.jakartaee-api</artifactId>
+				<version>${jakarta.jakartaee-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.microprofile</groupId>
+				<artifactId>microprofile</artifactId>
+				<version>${microprofile.version}</version>
+				<type>pom</type>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>8.0.11</version>
+				<version>${version.mysql-connector-java}</version>
 			</dependency>
-
+			<!-- 
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>[4.12,]</version>
+			    <groupId>org.seleniumhq.selenium</groupId>
+			    <artifactId>selenium-api</artifactId>
+			    <version>${org.seleniumhq.selenium.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.seleniumhq.selenium</groupId>
+			    <artifactId>selenium-chrome-driver</artifactId>
+			    <version>${org.seleniumhq.selenium.version}</version>
+			</dependency>
+			-->
+			<dependency>
+			    <groupId>org.seleniumhq.selenium</groupId>
+			    <artifactId>selenium-java</artifactId>
+			    <version>${org.seleniumhq.selenium.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.bonigarcia</groupId>
+				<artifactId>webdrivermanager</artifactId>
+				<version>${bonigarcias.webdrivermanager.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit -->
+			<dependency>
+			    <groupId>net.sourceforge.htmlunit</groupId>
+			    <artifactId>htmlunit</artifactId>
+			    <version>${htmlunit.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/htmlunit-driver -->
+			<dependency>
+			    <groupId>org.seleniumhq.selenium</groupId>
+			    <artifactId>htmlunit-driver</artifactId>
+			    <version>${htmlunit.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit-jupiter.version}</version>
 				<scope>test</scope>
 			</dependency>
-
 			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<version>[6.9.6,]</version>
+				<groupId>org.microshed</groupId>
+				<artifactId>microshed-testing-liberty</artifactId>
+				<version>${microshed-testing.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j-log4j12.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>za.co.sindi</groupId>
+				<artifactId>sindi-commons</artifactId>
+				<version>${sindi-commons.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.microprofile</groupId>
 			<artifactId>microprofile</artifactId>
-			<version>1.3</version>
 			<type>pom</type>
-			<scope>provided</scope>
 		</dependency>
-
+		<!-- 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-api</artifactId>
 		</dependency>
-
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-chrome-driver</artifactId>
+		</dependency>
+		-->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>htmlunit-driver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.microshed</groupId>
+			<artifactId>microshed-testing-liberty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>za.co.sindi</groupId>
+			<artifactId>sindi-commons</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>payara-micro-demo</finalName>
+		<finalName>cipc-service</finalName>
 		<pluginManagement>
 			<plugins>
+				<!-- https://mvnrepository.com/artifact/io.fabric8/fabric8-maven-plugin -->
+				<plugin>
+				    <groupId>io.fabric8</groupId>
+				    <artifactId>fabric8-maven-plugin</artifactId>
+				    <version>${io.fabric8.version}</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>1.4</version>
+					<version>${version.maven-enforcer-plugin}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.3</version>
+					<version>${version.maven-compiler-plugin}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${version.maven-surefire-plugin}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>2.6</version>
+					<version>${version.maven-war-plugin}</version>
 				</plugin>
+	            <!-- Enable liberty-maven plugin -->
+	            <plugin>
+	                <groupId>io.openliberty.tools</groupId>
+	                <artifactId>liberty-maven-plugin</artifactId>
+	                <version>${version.liberty-maven-plugin}</version>
+	            </plugin>
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
 			<plugin>
+			    <groupId>io.fabric8</groupId>
+			    <artifactId>fabric8-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -119,6 +277,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- This plugin is what Maven uses to call test cases -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+            <!-- Enable liberty-maven plugin -->
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+            </plugin>
 		</plugins>
 	</build>
 </project>
