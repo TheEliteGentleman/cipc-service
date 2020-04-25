@@ -155,7 +155,7 @@ public class WebBrowserUtils {
 			
 			webDriver = new ChromeDriver(options); 
 			// Implicit wait for 5 seconds
-			webDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		}
 	}
 	
